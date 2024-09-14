@@ -1,0 +1,26 @@
+class Solution {
+public:
+    int longestSubarray(vector<int>& nums) {
+        int greatest = 0;
+
+        for(auto i : nums) {
+            greatest = max(i, greatest);
+        }
+
+        int cnt = 0;
+        int mCnt = 0;
+
+        for(auto i : nums) {
+            if(i == greatest) {
+                cnt++;
+            } else {
+                mCnt = max(cnt, mCnt);
+                cnt = 0;
+            }
+        }
+
+        mCnt = max(cnt, mCnt);
+
+        return mCnt;
+    }
+};
