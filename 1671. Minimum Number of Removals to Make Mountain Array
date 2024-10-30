@@ -1,0 +1,34 @@
+class Solution {
+public:
+    int minimumMountainRemovals(vector<int>& nums) {
+        int n = nums.size();
+        
+        vector<int> incr(n, 1);
+        vector<int> decr(n, 1);
+
+        for (int i = 1; i < n; ++i) {
+            for (int j = 0; j < i; ++j) {
+                if (nums[i] > nums[j]) {
+                    incr[i] = max(incr[i], incr[j] + 1);
+                }
+            }
+        }
+
+        for (int i = n - 2; i >= 0; --i) {
+            for (int j = n - 1; j > i; --j) {
+                if (nums[i] > nums[j]) {
+                    decr[i] = max(decr[i], decr[j] + 1);
+                }
+            }
+        }
+
+        int ans = INT_MAX;
+        for (int i = 1; i < n - 1; ++i) {
+            if (incr[i] > 1 && decr[i] > 1) {
+                ans = min(ans, n - (incr[i] + decr[i] - 1));
+            }
+        }
+
+        return ans;
+    }
+};
