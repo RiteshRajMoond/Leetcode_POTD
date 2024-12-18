@@ -2,9 +2,10 @@ class Solution {
 public:
     int minDays(vector<int>& bloomDay, int m, int k) {
         int n = bloomDay.size();
-        if((long )m*k > n) return -1;
+        if((long)m*k > n) return -1;
 
-        int l = 1, r = 1e9;
+        int l = INT_MAX, r = INT_MIN;
+        for(int& i : bloomDay) l = min(l, i), r = max(r, i);
         int res = -1;
         while(l <= r) {
             int mid = l + (r - l)/2;
