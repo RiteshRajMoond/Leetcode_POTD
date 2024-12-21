@@ -1,5 +1,4 @@
 #define ll long long
-
 class Solution {
 public:
     vector<vector<int>> adj;
@@ -11,19 +10,19 @@ public:
         }
 
         int res = 0;
-        dfs(res, values, 0, -1, k);
+        auto dfs = [&](auto& self, int cur, int par) -> ll {
+            ll total = values[cur];
+
+            for(auto& i : adj[cur]) {
+                if(i == par) continue;
+                total += self(self, i, cur);
+            }
+
+            if(total % k == 0) res++;
+            return total;
+        };
+
+        dfs(dfs, 0, -1);
         return res;
-    }
-private:
-    ll dfs(int& res, vector<int>& val, int cur, int par, const int& k) {
-        ll total = val[cur];
-
-        for(auto& i : adj[cur]) {
-            if(i == par) continue;
-            total += dfs(res, val, i, cur, k);
-        }
-
-        if(total % k == 0) res++;
-        return total;
     }
 };
