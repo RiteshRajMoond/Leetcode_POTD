@@ -1,9 +1,9 @@
 #define ll long long
+
 class Solution {
 public:
-    vector<vector<int>> adj;
     int maxKDivisibleComponents(int n, vector<vector<int>>& edges, vector<int>& values, int k) {
-        adj.resize(n);
+        vector<vector<int>> adj(n);
         for(auto& i : edges) {
             adj[i[0]].push_back(i[1]);
             adj[i[1]].push_back(i[0]);
@@ -13,12 +13,12 @@ public:
         auto dfs = [&](auto& self, int cur, int par) -> ll {
             ll total = values[cur];
 
-            for(auto& i : adj[cur]) {
-                if(i == par) continue;
-                total += self(self, i, cur);
+            for(int& i : adj[cur]) {
+                if(i != par)
+                    total += self(self, i, cur);
             }
 
-            if(total % k == 0) res++;
+            if(total%k == 0) res++;
             return total;
         };
 
